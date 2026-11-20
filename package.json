@@ -1,0 +1,16 @@
+{
+  "name": "campusbus-fullstack",
+  "version": "1.0.0",
+  "description": "CampusBus - Smart College Bus Tracking & Management System",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "node backend/server.js"
+  },
+  "keywords": [
+    "campusbus",
+    "bus-tracking",
+    "fullstack"
+  ],
+  "author": "",
+  "license": "ISC"
+}

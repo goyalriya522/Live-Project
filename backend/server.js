@@ -31,6 +31,7 @@ const server = http.createServer(app);
 // Allowed Origins for CORS and WebSocket (Replace wildcard when credentials are enabled)
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'https://live-project-frontend-prgn.onrender.com',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'http://localhost:4173',
@@ -43,6 +44,12 @@ const isAllowedOrigin = (origin) => {
   if (!origin) return true;
   if (allowedOrigins.includes(origin)) return true;
   if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+  try {
+    const parsed = new URL(origin);
+    if (parsed.hostname.endsWith('.onrender.com')) return true;
+  } catch (e) {
+    // ignore invalid URLs
+  }
   return false;
 };
 
@@ -53,7 +60,7 @@ const io = new socketIo.Server(server, {
       if (isAllowedOrigin(origin)) {
         callback(null, true);
       } else {
-        callback(new Error('Origin not allowed by Socket.io CORS'));
+        callback(null, false);
       }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -69,13 +76,14 @@ notificationService.init(io);
 // Security & Middlewares
 app.use(helmet({
   crossOriginResourcePolicy: false,
+  contentSecurityPolicy: false,
 }));
 app.use(cors({
   origin: (origin, callback) => {
     if (isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
+      callback(null, false);
     }
   },
   credentials: true,
@@ -109,7 +117,24 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/tracking', trackingRoutes);
 app.use('/api/offline', offlineRoutes);
 
-// 404 Route
+// Serve Frontend static assets if available (enables running both Frontend and Backend on a single link)
+const fs = require('fs');
+const frontendDistPath = path.resolve(__dirname, '../frontend/dist');
+
+if (fs.existsSync(frontendDistPath)) {
+  console.log(`[Static] Serving CampusBus frontend from ${frontendDistPath}`);
+  app.use(express.static(frontendDistPath));
+
+  // SPA fallback for frontend client-side routing (e.g. /login, /student, /driver, /admin)
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api') || req.originalUrl.startsWith('/socket.io')) {
+      return next();
+    }
+    res.sendFile(path.resolve(frontendDistPath, 'index.html'));
+  });
+}
+
+// 404 Route for unmatched API endpoints
 app.use((req, res, next) => {
   res.status(404).json({
     success: false,
