@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F2537" />
+      <stop offset="100%" stop-color="#0A192F" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Outer Ring Shield -->
+  <circle cx="60" cy="60" r="56" fill="url(#bgGrad)" stroke="url(#goldGrad)" stroke-width="3" filter="url(#shadow)" />
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#F59E0B" stroke-width="1" stroke-dasharray="3 2" opacity="0.6" />
+
+  <!-- Shield Base -->
+  <path d="M60 22 C78 22 86 28 86 46 C86 70 60 88 60 88 C60 88 34 70 34 46 C34 28 42 22 60 22 Z" fill="#1E3A8A" stroke="url(#goldGrad)" stroke-width="2" />
+
+  <!-- College Bus Silhouette inside Shield -->
+  <g transform="translate(42, 36) scale(0.75)" fill="#FCD34D">
+    <rect x="4" y="6" width="40" height="26" rx="5" />
+    <!-- Windshield -->
+    <rect x="7" y="9" width="34" height="10" rx="2" fill="#0A192F" />
+    <!-- Windows -->
+    <rect x="7" y="21" width="8" height="5" rx="1" fill="#0A192F" />
+    <rect x="18" y="21" width="8" height="5" rx="1" fill="#0A192F" />
+    <rect x="29" y="21" width="8" height="5" rx="1" fill="#0A192F" />
+    <!-- Wheels -->
+    <circle cx="14" cy="33" r="4.5" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
+    <circle cx="34" cy="33" r="4.5" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
+    <circle cx="14" cy="33" r="1.5" fill="#F59E0B" />
+    <circle cx="34" cy="33" r="1.5" fill="#F59E0B" />
+  </g>
+
+  <!-- CampusBus Monogram Banner -->
+  <rect x="16" y="86" width="88" height="18" rx="6" fill="url(#goldGrad)" stroke="#0F2537" stroke-width="1.5" />
+  <text x="60" y="99" text-anchor="middle" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="10" fill="#0A192F" letter-spacing="1">CAMPUSBUS</text>
+
+  <!-- Estd & Location Subtitle -->
+  <text x="60" y="112" text-anchor="middle" font-family="'Inter', -apple-system, sans-serif" font-weight="700" font-size="6.5" fill="#FCD34D" letter-spacing="1">TRANSIT PORTAL</text>
+</svg>
